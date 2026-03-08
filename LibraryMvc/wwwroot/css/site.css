@@ -1,22 +1,171 @@
 html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: #f6f1e9;
+    color: #2f2f2f;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.library-navbar {
+    background-color: #234b3b;
+    padding-top: 0.9rem;
+    padding-bottom: 0.9rem;
+}
+
+.library-brand {
+    color: #f8f4ec !important;
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+    .library-brand:hover {
+        color: #d9c7a2 !important;
+    }
+
+.library-link {
+    color: #f8f4ec !important;
+    font-weight: 500;
+    margin-left: 0.4rem;
+    margin-right: 0.4rem;
+    transition: color 0.2s ease-in-out;
+}
+
+    .library-link:hover {
+        color: #d9c7a2 !important;
+    }
+
+.page-container {
+    padding-top: 10px;
+}
+
+h1, h2, h3, h4 {
+    color: #234b3b;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.table {
+    background-color: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+    .table thead {
+        background-color: #e8dfcf;
+    }
+
+        .table thead th {
+            color: #234b3b;
+            font-weight: 700;
+            border-bottom: none;
+            padding: 14px 12px;
+        }
+
+    .table tbody td {
+        vertical-align: middle;
+        padding: 12px;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f8f4ec;
+    }
+
+.form-control,
+.form-select,
+select.form-control {
+    border-radius: 8px;
+    border: 1px solid #cfc6b8;
+    box-shadow: none;
+}
+
+    .form-control:focus,
+    .form-select:focus,
+    select.form-control:focus {
+        border-color: #234b3b;
+        box-shadow: 0 0 0 0.15rem rgba(35, 75, 59, 0.15);
+    }
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+label.control-label,
+label {
+    font-weight: 600;
+    color: #234b3b;
+    margin-bottom: 0.35rem;
+}
+
+.btn-primary {
+    background-color: #234b3b;
+    border-color: #234b3b;
+    border-radius: 8px;
+    padding: 8px 18px;
+    font-weight: 600;
+}
+
+    .btn-primary:hover {
+        background-color: #1b3c2f;
+        border-color: #1b3c2f;
+    }
+
+.btn-danger {
+    border-radius: 8px;
+}
+
+a {
+    color: #2e6b52;
+    text-decoration: none;
+}
+
+    a:hover {
+        color: #1b3c2f;
+        text-decoration: underline;
+    }
+
+.row > .col-md-4,
+.row > .col-md-6,
+.row > .col-md-8,
+.row > .col-md-10,
+.row > .col-md-12 {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+.library-footer {
+    background-color: #e8dfcf;
+    color: #234b3b;
+    padding: 16px 0;
+    border-top: 1px solid #d8cebd;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.text-danger {
+    font-size: 0.95rem;
+}
+
+hr {
+    border-top: 1px solid #d8cebd;
+}
+
+@media (max-width: 576px) {
+    .library-brand {
+        font-size: 1.1rem;
+    }
+
+    .library-link {
+        margin-left: 0;
+        margin-right: 0;
+    }
 }
