@@ -1,0 +1,62 @@
+@model IEnumerable<LibraryMvc.Models.Issue>
+
+@{
+    ViewData["Title"] = "Issues";
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Issue Date</th>
+                <th>Due Date</th>
+                <th>Return Date</th>
+                <th>Book</th>
+                <th>Reader</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.IssueDate.ToString("dd.MM.yyyy")
+                    </td>
+                    <td>
+                        @item.DueDate.ToString("dd.MM.yyyy")
+                    </td>
+                    <td>
+                        @(item.ReturnDate.HasValue? item.ReturnDate.Value.ToString("dd.MM.yyyy") : "-")
+                    </td>
+                    <td>
+                        @item.Book.Title
+                    </td>
+                    <td>
+                        @item.Reader.FullName
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.IssueId">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.IssueId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.IssueId">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</body>
+</html>

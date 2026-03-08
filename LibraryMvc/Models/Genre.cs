@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace LibraryMvc.Models;
 
@@ -7,6 +8,7 @@ public partial class Genre
 {
     public int GenreId { get; set; }
 
+    [Required(ErrorMessage = "Введіть назву жанру.")]
     public string Name { get; set; } = null!;
 
     public virtual ICollection<Book> Books { get; set; } = new List<Book>();

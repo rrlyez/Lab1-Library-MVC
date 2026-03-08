@@ -11,11 +11,11 @@ public partial class Issue
 
     public int ReaderId { get; set; }
 
-    public DateOnly IssueDate { get; set; }
+    public DateTime IssueDate { get; set; }
 
-    public DateOnly DueDate { get; set; }
+    public DateTime DueDate { get; set; }
 
-    public DateOnly? ReturnDate { get; set; }
+    public DateTime? ReturnDate { get; set; }
 
     public virtual Book Book { get; set; } = null!;
 
