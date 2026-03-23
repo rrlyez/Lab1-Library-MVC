@@ -66,18 +66,18 @@ namespace LibraryMvc.Controllers
 
             if (issue.DueDate < issue.IssueDate)
             {
-                ModelState.AddModelError("DueDate", "Дата повернення за планом не може бути раніше дати видачі.");
+                ModelState.AddModelError("DueDate", "The planned return date cannot be earlier than the issue date.");
             }
 
             var book = await _context.Books.FindAsync(issue.BookId);
 
             if (book == null)
             {
-                ModelState.AddModelError("BookId", "Обрану книгу не знайдено.");
+                ModelState.AddModelError("BookId", "The selected book was not found.");
             }
             else if (book.CopiesCount <= 0)
             {
-                ModelState.AddModelError("BookId", "Немає доступних примірників цієї книги.");
+                ModelState.AddModelError("BookId", "There are no copies of this book available.");
             }
 
             if (!ModelState.IsValid)
@@ -88,8 +88,8 @@ namespace LibraryMvc.Controllers
 
             issue.ReturnDate = null;
 
-            issue.IssueDate = DateTime.SpecifyKind(issue.IssueDate, DateTimeKind.Utc);
-            issue.DueDate = DateTime.SpecifyKind(issue.DueDate, DateTimeKind.Utc);
+            issue.IssueDate = DateTime.SpecifyKind(issue.IssueDate.Value, DateTimeKind.Utc);
+            issue.DueDate = DateTime.SpecifyKind(issue.DueDate.Value, DateTimeKind.Utc);
 
             book!.CopiesCount -= 1;
 
@@ -132,7 +132,7 @@ namespace LibraryMvc.Controllers
 
             if (issue.DueDate < issue.IssueDate)
             {
-                ModelState.AddModelError("DueDate", "Дата повернення за планом не може бути раніше дати видачі.");
+                ModelState.AddModelError("DueDate", "The planned return date cannot be earlier than the issue date.");
             }
 
             var existingIssue = await _context.Issues
@@ -152,16 +152,22 @@ namespace LibraryMvc.Controllers
 
             try
             {
-                if (existingIssue.ReturnDate == null && issue.ReturnDate != null)
+                var book = await _context.Books.FindAsync(issue.BookId);
+
+                if (book != null)
                 {
-                    var book = await _context.Books.FindAsync(issue.BookId);
-                    if (book != null)
+                    if (existingIssue.ReturnDate == null && issue.ReturnDate != null)
                     {
                         book.CopiesCount += 1;
                     }
+                    else if (existingIssue.ReturnDate != null && issue.ReturnDate == null)
+                    {
+                        book.CopiesCount -= 1;
+                    }
                 }
-                issue.IssueDate = DateTime.SpecifyKind(issue.IssueDate, DateTimeKind.Utc);
-                issue.DueDate = DateTime.SpecifyKind(issue.DueDate, DateTimeKind.Utc);
+
+                issue.IssueDate = DateTime.SpecifyKind(issue.IssueDate.Value, DateTimeKind.Utc);
+                issue.DueDate = DateTime.SpecifyKind(issue.DueDate.Value, DateTimeKind.Utc);
 
                 if (issue.ReturnDate.HasValue)
                 {
@@ -180,7 +186,7 @@ namespace LibraryMvc.Controllers
             }
             catch (DbUpdateException)
             {
-                ModelState.AddModelError("", "Не вдалося зберегти зміни.");
+                ModelState.AddModelError("", "Failed to save changes.");
                 FillIssueSelections(issue.BookId, issue.ReaderId);
                 return View(issue);
             }
@@ -246,7 +252,7 @@ namespace LibraryMvc.Controllers
                     .Select(b => new
                     {
                         b.BookId,
-                        Display = b.Title + " (доступно: " + b.CopiesCount + ")"
+                        Display = b.Title + " (available: " + b.CopiesCount + ")"
                     })
                     .ToList(),
                 "BookId",

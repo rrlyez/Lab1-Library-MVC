@@ -6,8 +6,19 @@
     <title>@ViewData["Title"] - Library Management System</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <script>
+        (function () {
+            const savedTheme = localStorage.getItem("theme");
+            if (savedTheme === "dark") {
+                document.documentElement.classList.add("dark-theme");
+            }
+        })();
+    </script>
 </head>
 <body>
+    @{
+        var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+    }
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm library-navbar box-shadow mb-4">
             <div class="container">
@@ -22,25 +33,28 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link library-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link library-link @(currentController == "Home" ? "active-link" : "")" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link library-link" asp-area="" asp-controller="Books" asp-action="Index">Books</a>
+                            <a class="nav-link library-link @(currentController == "Books" ? "active-link" : "")" asp-area="" asp-controller="Books" asp-action="Index">Books</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link library-link" asp-area="" asp-controller="Authors" asp-action="Index">Authors</a>
+                            <a class="nav-link library-link @(currentController == "Authors" ? "active-link" : "")" asp-area="" asp-controller="Authors" asp-action="Index">Authors</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link library-link" asp-area="" asp-controller="Readers" asp-action="Index">Readers</a>
+                            <a class="nav-link library-link @(currentController == "Readers" ? "active-link" : "")" asp-area="" asp-controller="Readers" asp-action="Index">Readers</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link library-link" asp-area="" asp-controller="Publishers" asp-action="Index">Publishers</a>
+                            <a class="nav-link library-link @(currentController == "Publishers" ? "active-link" : "")" asp-area="" asp-controller="Publishers" asp-action="Index">Publishers</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link library-link" asp-area="" asp-controller="Genres" asp-action="Index">Genres</a>
+                            <a class="nav-link library-link @(currentController == "Genres" ? "active-link" : "")" asp-area="" asp-controller="Genres" asp-action="Index">Genres</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link library-link" asp-area="" asp-controller="Issues" asp-action="Index">Issues</a>
+                            <a class="nav-link library-link @(currentController == "Issues" ? "active-link" : "")" asp-area="" asp-controller="Issues" asp-action="Index">Issues</a>
+                        </li>
+                        <li class="nav-item">
+                            <button id="theme-toggle" class="theme-toggle-btn" type="button">🌙</button>
                         </li>
                     </ul>
                 </div>
@@ -62,5 +76,28 @@
 
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const themeToggle = document.getElementById("theme-toggle");
+
+            if (document.documentElement.classList.contains("dark-theme")) {
+                themeToggle.textContent = "☀️";
+            } else {
+                themeToggle.textContent = "🌙";
+            }
+
+            themeToggle.addEventListener("click", function () {
+                document.documentElement.classList.toggle("dark-theme");
+
+                if (document.documentElement.classList.contains("dark-theme")) {
+                    localStorage.setItem("theme", "dark");
+                    themeToggle.textContent = "☀️";
+                } else {
+                    localStorage.setItem("theme", "light");
+                    themeToggle.textContent = "🌙";
+                }
+            });
+        });
+    </script>
 </body>
 </html>

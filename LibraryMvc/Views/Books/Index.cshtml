@@ -67,12 +67,12 @@
                         @(item.Authors != null && item.Authors.Any()
                                             ? string.Join(", ", item.Authors.Select(a => a.FirstName + " " + a.LastName))
                                             : "-")
-                                              </td>
-                                              <td>
+                    </td>
+                    <td>
                         @(item.Genres != null && item.Genres.Any()
                                             ? string.Join(", ", item.Genres.Select(g => g.Name))
                                             : "-")
-                </td>
+                    </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.BookId">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.BookId">Details</a> |
@@ -82,5 +82,113 @@
                         }
         </tbody>
     </table>
+    <div class="row mt-4">
+        <div class="col-12">
+            <div id="booksByYearChart"></div>
+        </div>
+    </div>
 </body>
 </html>
+@section Scripts
+{
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawBooksByYearChart);
+
+        function isDarkTheme() {
+            return document.documentElement.classList.contains("dark-theme");
+        }
+
+        function getBooksChartOptions() {
+            if (isDarkTheme()) {
+                return {
+                    title: 'Books by publication year',
+                    width: 800,
+                    height: 400,
+                    legend: { position: 'none' },
+                    backgroundColor: '#1b1b1b',
+                    chartArea: {
+                        backgroundColor: '#1b1b1b'
+                    },
+                    titleTextStyle: {
+                        color: '#f3e7d0',
+                        fontSize: 18,
+                        bold: true
+                    },
+                    hAxis: {
+                        textStyle: { color: '#f1f1f1' },
+                        titleTextStyle: { color: '#f1f1f1' },
+                        gridlines: { color: '#444' },
+                        baselineColor: '#666'
+                    },
+                    vAxis: {
+                        textStyle: { color: '#f1f1f1' },
+                        titleTextStyle: { color: '#f1f1f1' },
+                        gridlines: { color: '#444' },
+                        baselineColor: '#666'
+                    }
+                };
+            }
+
+            return {
+                title: 'Books by publication year',
+                width: 800,
+                height: 400,
+                legend: { position: 'none' },
+                backgroundColor: '#ffffff',
+                chartArea: {
+                    backgroundColor: '#ffffff'
+                },
+                titleTextStyle: {
+                    color: '#234b3b',
+                    fontSize: 18,
+                    bold: true
+                },
+                hAxis: {
+                    textStyle: { color: '#2f2f2f' },
+                    titleTextStyle: { color: '#2f2f2f' },
+                    gridlines: { color: '#ddd' },
+                    baselineColor: '#999'
+                },
+                vAxis: {
+                    textStyle: { color: '#2f2f2f' },
+                    titleTextStyle: { color: '#2f2f2f' },
+                    gridlines: { color: '#ddd' },
+                    baselineColor: '#999'
+                }
+            };
+        }
+
+        function drawBooksByYearChart() {
+            fetch('/api/charts/booksByYear')
+                .then(response => response.json())
+                .then(data => {
+                    const dataTable = new google.visualization.DataTable();
+                    dataTable.addColumn('string', 'Year');
+                    dataTable.addColumn('number', 'Books count');
+
+                    data.forEach(item => {
+                        dataTable.addRow([item.year, item.count]);
+                    });
+
+                    const options = getBooksChartOptions();
+
+                    const chart = new google.visualization.ColumnChart(
+                        document.getElementById('booksByYearChart')
+                    );
+                    chart.draw(dataTable, options);
+                });
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const themeToggle = document.getElementById("theme-toggle");
+
+            if (themeToggle) {
+                themeToggle.addEventListener("click", function () {
+                    setTimeout(drawBooksByYearChart, 50);
+                });
+            }
+        });
+    </script>
+}

@@ -8,7 +8,7 @@ public partial class Genre
 {
     public int GenreId { get; set; }
 
-    [Required(ErrorMessage = "Введіть назву жанру.")]
+    [Required(ErrorMessage = "Enter the genre name.")]
     public string Name { get; set; } = null!;
 
     public virtual ICollection<Book> Books { get; set; } = new List<Book>();

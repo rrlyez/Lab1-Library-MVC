@@ -73,7 +73,7 @@ namespace LibraryMvc.Controllers
                 Title = vm.Title,
                 Isbn = vm.Isbn,
                 PublishYear = vm.PublishYear,
-                PublisherId = vm.PublisherId,
+                PublisherId = vm.PublisherId.Value,
                 CopiesCount = vm.CopiesCount
             };
 
@@ -103,7 +103,7 @@ namespace LibraryMvc.Controllers
             }
             catch (DbUpdateException)
             {
-                ModelState.AddModelError("", "Не вдалося створити книгу. Перевірте правильність заповнення полів.");
+                ModelState.AddModelError("", "Failed to create book. Please check that the fields are filled in correctly.");
                 FillBookSelections(vm.PublisherId, vm.AuthorIds, vm.GenreIds);
                 return View(vm);
             }
@@ -168,7 +168,7 @@ namespace LibraryMvc.Controllers
             book.Title = vm.Title;
             book.Isbn = vm.Isbn;
             book.PublishYear = vm.PublishYear;
-            book.PublisherId = vm.PublisherId;
+            book.PublisherId = vm.PublisherId.Value;
             book.CopiesCount = vm.CopiesCount;
 
             book.Authors.Clear();
@@ -198,7 +198,7 @@ namespace LibraryMvc.Controllers
             }
             catch (DbUpdateException)
             {
-                ModelState.AddModelError("", "Не вдалося зберегти зміни.");
+                ModelState.AddModelError("", "Failed to save changes.");
                 FillBookSelections(vm.PublisherId, vm.AuthorIds, vm.GenreIds);
                 return View(vm);
             }

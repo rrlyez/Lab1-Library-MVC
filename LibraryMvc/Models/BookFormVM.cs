@@ -7,22 +7,21 @@ namespace LibraryMvc.Models
     {
         public int BookId { get; set; }
 
-        [Required(ErrorMessage = "Введіть назву книги.")]
+        [Required(ErrorMessage = "Enter the title of the book.")]
         public string Title { get; set; } = null!;
 
-        [Required(ErrorMessage = "Введіть ISBN.")]
+        [Required(ErrorMessage = "Enter ISBN.")]
         public string? Isbn { get; set; }
 
-        [Required(ErrorMessage = "Вкажіть рік видання.")]
-        [Range(1000, 2026, ErrorMessage = "Рік видання має бути в межах від 1000 до 2026.")]
+        [Required(ErrorMessage = "Enter a valid publish year.")]
+        [Range(1000, 2026, ErrorMessage = "The year of publication must be between 1000 and 2026.")]
         public int? PublishYear { get; set; }
 
-        [Required(ErrorMessage = "Оберіть видавця.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Оберіть видавця.")]
-        public int PublisherId { get; set; }
+        [Required(ErrorMessage = "Select the publisher.")]
+        public int? PublisherId { get; set; }
 
-        [Required(ErrorMessage = "Вкажіть кількість примірників.")]
-        [Range(1, 100000, ErrorMessage = "Кількість примірників має бути більшою за 0.")]
+        [Required(ErrorMessage = "Enter the number of copies.")]
+        [Range(1, 100000, ErrorMessage = "Copies count must be greater than 0.")]
         public int CopiesCount { get; set; }
 
         public List<int> AuthorIds { get; set; } = new();

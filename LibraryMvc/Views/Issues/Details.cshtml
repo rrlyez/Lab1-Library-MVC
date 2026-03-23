@@ -22,20 +22,20 @@
             @Html.DisplayNameFor(model => model.IssueDate)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IssueDate)
-        </dd>
+                @Model.IssueDate.Value.ToString("dd.mm.yyyy")
+            </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.DueDate)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DueDate)
-        </dd>
+                @Model.DueDate..Value.ToString("dd.mm.yyyy")
+            </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ReturnDate)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ReturnDate)
-        </dd>
+                @(Model.ReturnDate.HasValue? Model.ReturnDate.Value.ToString("dd.mm.yyyy") : "")
+            </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Book)
         </dt>

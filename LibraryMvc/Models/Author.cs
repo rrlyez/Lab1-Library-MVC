@@ -8,10 +8,10 @@ public partial class Author
 {
     public int AuthorId { get; set; }
 
-    [Required(ErrorMessage = "Введіть ім'я автора.")]
+    [Required(ErrorMessage = "Enter the author's first name.")]
     public string FirstName { get; set; } = null!;
 
-    [Required(ErrorMessage = "Введіть прізвище автора.")]
+    [Required(ErrorMessage = "Enter the author's last name.")]
     public string LastName { get; set; } = null!;
 
     public virtual ICollection<Book> Books { get; set; } = new List<Book>();
